@@ -19,6 +19,7 @@ Vagrant.configure("2") do |config|
     aws.region                    = 'ap-southeast-2'
     aws.subnet_id                 = 'subnet-3d001954'
     aws.elastic_ip                = true
+    aws.ssh_host_attribute        = :private_ip_address
     aws.security_groups           = ['sg-06b85e63']
     aws.ami                       = "ami-09f26b33"
     aws.terminate_on_shutdown     = true
