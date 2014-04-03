@@ -9,8 +9,7 @@ A bug or feature ticket is created
 
 * write some integration test of how the new feature should work from the outside looking in
 * be vagrant up
-* be rake spec:unit
-* be rake spec:integration
+* be vagrant rspec
 * watch them fail
 
 Rinse and repeat the following cycle till tests pass:
@@ -18,18 +17,22 @@ Rinse and repeat the following cycle till tests pass:
 * add changes to puppet
 * be vagrant destroy -f
 * be vagrant up
-* be rake spec:unit
-* be rake spec:integration
+* be vagrant rspec
+* commit changes to git and push
 
 OR
 
 * add changes to puppet
 * be vagrant provision
-* be rake spec:unit
-* be rake spec:integration
+* be vagrant rspec
 * commit changes to git and push
 
 release to production and Profit !
+
+There are rake tasks for the various tests too.
+
+* be rake spec:unit
+* be rake spec:integration
 
 ## Tools
 

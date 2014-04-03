@@ -21,4 +21,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
  config.vm.provision "shell", inline: "sudo apt-get install -y apache2"
  config.rspec.suppress_ci_stdout = false
+ config.rspec.dirs = ['spec/unit', 'spec/integration']
+ config.rspec.tests = ['*_spec.rb']
 end
