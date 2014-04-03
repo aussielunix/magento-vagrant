@@ -9,9 +9,11 @@ GEM
       xpath (~> 2.0)
     cliver (0.3.2)
     diff-lcs (1.2.5)
+    highline (1.6.21)
     mime-types (2.2)
     mini_portile (0.5.3)
     multi_json (1.9.2)
+    net-ssh (2.8.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     poltergeist (1.5.0)
@@ -31,6 +33,12 @@ GEM
     rspec-expectations (2.14.5)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.14.6)
+    serverspec (1.0.0)
+      highline
+      net-ssh
+      rspec (~> 2.13)
+      specinfra (>= 1.0.0)
+    specinfra (1.0.1)
     websocket-driver (0.3.2)
     xpath (2.0.0)
       nokogiri (~> 1.3)
@@ -43,3 +51,4 @@ DEPENDENCIES
   poltergeist
   rake
   rspec
+  serverspec
