@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'spec_helper'
+require_relative 'spec_helper'
 
 Capybara.app_host = 'http://192.168.33.10'
 

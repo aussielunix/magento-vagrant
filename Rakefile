@@ -1,9 +1,12 @@
-#!/usr/bin/env ruby
-
+require 'rake'
 require 'rspec/core/rake_task'
 
-$: << File.expand_path(File.dirname(__FILE__))
 
-RSpec::Core::RakeTask.new(:spec)
-task :default => [:spec]
-
+namespace :spec do
+  [:unit, :integration].each do |sub|
+    desc "Run the specs in spec/#{sub}"
+    RSpec::Core::RakeTask.new(sub) do |t|
+      t.pattern = "spec/#{sub}/**/*_spec.rb"
+    end
+  end
+end
