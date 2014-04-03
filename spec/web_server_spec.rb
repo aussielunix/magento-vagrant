@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-Capybara.app_host = 'http://127.0.0.1'
+Capybara.app_host = 'http://192.168.33.10'
 
 describe "get /" do
   it "a webserver should return with a 200" do
