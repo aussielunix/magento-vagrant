@@ -1,35 +1,24 @@
-# list of required env vars
-envvars = [
-  'aws_access_key_id',
-  'aws_secret_access_key',
-  'aws_keypair_name'
-]
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 
-envvars.each do |var|
-  raise ArgumentError, "ENV['#{var}'] is not set." unless ENV[var]
-end
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
 
-Vagrant.configure("2") do |config|
-  config.vm.box = "dummy"
-
-  config.vm.provider :aws do |aws, override|
-    aws.access_key_id             = ENV['aws_access_key_id']
-    aws.secret_access_key         = ENV['aws_secret_access_key']
-    aws.keypair_name              = ENV['aws_keypair_name']
-    aws.region                    = 'ap-southeast-2'
-    aws.subnet_id                 = 'subnet-3d001954'
-    aws.elastic_ip                = true
-    aws.ssh_host_attribute        = :private_ip_address
-    aws.security_groups           = ['sg-06b85e63']
-    aws.ami                       = "ami-09f26b33"
-    aws.terminate_on_shutdown     = true
-    aws.tags                      = {
-      'Name'                      => 'bprnd-vagrant-test-01',
-      'Contact'                   => 'Mick Pollard'
-    }
-    override.ssh.username         = "ubuntu"
-    override.ssh.private_key_path = "~/.ssh/ec2/#{ENV['aws_keypair_name']}.pem"
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "hashicorp/precise64"
+  config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.provider "virtualbox" do |vb|
+  #   # Don't boot with headless mode
+  #   vb.gui = true
+  #
+  #   # Use VBoxManage to customize the VM. For example to change memory:
+  #   vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
-  #TODO replace this with some puppet love
-  config.vm.provision "shell", inline: "sudo apt-get install -y apache2"
+  # config.vm.provision "puppet" do |puppet|
+  #   puppet.manifests_path = "manifests"
+  #   puppet.manifest_file  = "site.pp"
+  # end
+
+ config.vm.provision "shell", inline: "sudo apt-get install -y apache2"
+ config.rspec.suppress_ci_stdout = false
 end
