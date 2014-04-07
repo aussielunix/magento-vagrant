@@ -7,27 +7,24 @@ Collection of tools for building out a testable product development workflow.
 
 A bug or feature ticket is created
 
-* write some integration test of how the new feature should work from the outside looking in
+* write some integration tests of how the new feature should work from the outside looking in
 * be vagrant up
 * be vagrant rspec
 * watch them fail
 
 Rinse and repeat the following cycle till tests pass:
 
-* add changes to puppet
-* be vagrant destroy -f
-* be vagrant up
+* add changes to the vagrant shell provisioner
+* be vagrant destroy -f && be vagrant up
+* OR be vagrant provision
 * be vagrant rspec
-* commit changes to git and push
 
-OR
+Now that you have blackbox tests working you are able to confidently make changes to the 'blackbox'  
+You are free to make changes to the implementation of the blackbox whilst knowing the black box  
+is still doing exactly what the product description says it should.  
 
-* add changes to puppet
-* be vagrant provision
-* be vagrant rspec
-* commit changes to git and push
-
-release to production and Profit !
+You can now finalise the box provisioning into proper puppet manifests(if not already) and should  
+write a bunch of unit tests 9serverspec) to ensure that the provisioning comepletes properly each time.
 
 There are rake tasks for the various tests too.
 
@@ -43,4 +40,3 @@ There are rake tasks for the various tests too.
 * capybara
 * poltergeist
 * serverspec
-
