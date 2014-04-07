@@ -24,7 +24,7 @@ You are free to make changes to the implementation of the blackbox whilst knowin
 is still doing exactly what the product description says it should.  
 
 You can now finalise the box provisioning into proper puppet manifests(if not already) and should  
-write a bunch of unit tests 9serverspec) to ensure that the provisioning comepletes properly each time.
+write a bunch of unit tests (serverspec) to ensure that the provisioning comepletes properly each time.
 
 There are rake tasks for the various tests too.
 
