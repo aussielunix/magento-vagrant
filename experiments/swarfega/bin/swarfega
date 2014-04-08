@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+require 'methadone'
+require 'swarfega'
+
+module Swarfega
+
+  include Methadone::Main
+  include Methadone::CLILogging
+  include Methadone::ExitNow
+
+  main do |platform|
+    debug(options.inspect)
+    ::Swarfega::Test.const_get(platform.to_s.strip.capitalize).run(options)
+  end
+
+  version Swarfega::VERSION
+  description 'platform tests'
+
+  arg         :platform, :required
+
+  on('--url http://example.com/admin', 'url to test')
+  on('--title Magento Admin', 'Expected Page Title')
+
+  use_log_level_option
+
+  go!
+end

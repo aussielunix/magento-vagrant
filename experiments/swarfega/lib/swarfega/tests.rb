@@ -1,0 +1,1 @@
+require 'swarfega/tests/generic'
