@@ -11,7 +11,7 @@ module Swarfega
 
   main do |platform|
     debug(options.inspect)
-    ::Swarfega::Test.const_get(platform.to_s.strip.capitalize).run(options)
+    ::Swarfega::Test.new(platform.to_s.strip, options).run
   end
 
   version Swarfega::VERSION
@@ -20,7 +20,10 @@ module Swarfega
   arg         :platform, :required
 
   on('--url http://example.com/admin', 'url to test')
-  on('--title Magento Admin', 'Expected Page Title')
+  on('--output [nagios|report]', 'output in a nagios plugin or general report format', '(Default: nagios)')
+
+  # default to nagios plugin format
+  options[:output] = 'nagios'
 
   use_log_level_option
 
