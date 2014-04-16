@@ -2,6 +2,26 @@
 # vi: set ft=ruby :
 require 'yaml'
 
+def puppet_version
+  puppet_version = ENV['puppet_version'] || ENV['PUPPET_VERSION'] || '3.4.3-1puppetlabs1'
+  if puppet_version =~ /^latest$/i
+    puppet_version = nil
+  else
+    puppet_version = "=#{puppet_version}"
+  end
+  puppet_version
+end
+
+def facter_version
+  facter_version = ENV['facter_version'] || ENV['FACTER_VERSION'] || '2.0.1-1puppetlabs1'
+  if facter_version =~ /^latest$/i
+    facter_version = nil
+  else
+    facter_version = "=#{facter_version}"
+  end
+  facter_version
+end
+
 sh_update_puppet = <<-EOS
     echo "Get puppet from the puppetlabs repo if we haven't already."
     # Assume that this file's existence means we have the Puppet Labs repo added
@@ -18,7 +38,7 @@ sh_update_puppet = <<-EOS
         sudo dpkg -i $DEB
 
         sudo apt-get update
-        sudo apt-get install --yes puppet
+        sudo apt-get install --yes puppet#{puppet_version} puppet-common#{puppet_version} facter#{facter_version}
     fi
 EOS
 
