@@ -72,4 +72,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     puppet.manifest_file  = "init.pp"
     puppet.options        = "--hiera_config=/vagrant/puppet/hiera.yaml"
   end
+
+  config.vm.provider 'virtualbox' do |v|
+    v.customize ['modifyvm', :id, '--memory', 2048]
+    v.customize ['setextradata', :id, 'VBoxInternal/Devices/mc146818/0/Config/UseUTC', 1]
+  end
+
+  config.vm.provider 'vmware_fusion' do |v|
+    v.vmx['memsize']  = '1024'
+    v.vmx['numvcpus'] = '1'
+  end
 end
