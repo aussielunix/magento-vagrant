@@ -48,7 +48,7 @@ boxes = Dir.glob("puppet/hiera/nodes/*.yaml").map {|f| YAML.load(File.read(f)) }
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "hashicorp/precise64"
+  config.vm.box = "ubuntu/precise64"
 
   boxes.each do |attrs|
     ip_address = attrs['ip_address']
