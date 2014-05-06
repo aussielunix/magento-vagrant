@@ -28,7 +28,6 @@ node default  {
     inifile => '/etc/php5/apache2/php.ini'
   } 
 
-
   class { 'php::cli':
     inifile => '/etc/php5/cli/php.ini'
   }
@@ -36,18 +35,6 @@ node default  {
   php::ini { '/etc/php5/cli/php.ini':
     display_errors => 'On',
     memory_limit   => '64M',
-  }
-
-  php::module { 'gd': }
-  php::module { 'mcrypt': }
-  php::module { 'apc': }
-  php::module { 'curl': }
-  php::module { 'mysqlnd': }
-  php::module { 'redis':
-    require => Apt::Ppa['ppa:ufirst/php']
-  }
-  php::module { 'snappy':
-    require => Apt::Ppa['ppa:ufirst/php']
   }
 
   class { 'apt': }
@@ -58,4 +45,26 @@ node default  {
   }
 
   apt::ppa { 'ppa:ufirst/php': }
+
+  php::module { 'gd': }
+  php::module { 'mcrypt': }
+  php::module { 'curl': }
+  php::module { 'mysqlnd': }
+  php::module { 'redis':
+    require => Apt::Ppa['ppa:ufirst/php']
+  }
+  php::module { 'snappy':
+    require => Apt::Ppa['ppa:ufirst/php']
+  }
+
+  php::module { 'apc': }
+  php::module::ini { 'apc':
+    settings               => {
+      'apc.enabled'        => '1',
+      'apc.max_file_size'  => '4',
+      'apc.shm_size'       => '256',
+      'apc.num_files_hint' => '15000',
+      'apc.enable_cli'     => '1'
+    }
+  }
 }
