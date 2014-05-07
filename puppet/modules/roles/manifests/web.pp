@@ -2,9 +2,14 @@
 # WIP
 #
 class roles::web (
-  $webserver    = 'apache2',
-  $php_runtime  = 'modphp',
-  $url          = 'example.org'
+  $webserver          = 'apache2',
+  $php_runtime        = 'modphp',
+  $url                = 'example.org',
+  $apc_enabled        = '1',
+  $apc_max_file_size  = '4',
+  $apc_shm_size       = '256',
+  $apc_num_files_hint = '15000',
+  $apc_enable_cli     = '1'
 )
 {
   validate_re($php_runtime, ['modphp', 'fpm'], 'Roles::Web - $php_runtime only supports: modphp or fpm.')
@@ -71,11 +76,11 @@ class roles::web (
   php::module { 'apc': }
   php::module::ini { 'apc':
     settings               => {
-      'apc.enabled'        => '1',
-      'apc.max_file_size'  => '4',
-      'apc.shm_size'       => '256',
-      'apc.num_files_hint' => '15000',
-      'apc.enable_cli'     => '1'
+      'apc.enabled'        => $apc_enabled,
+      'apc.max_file_size'  => $apc_max_file_size,
+      'apc.shm_size'       => $apc_shm_size,
+      'apc.num_files_hint' => $apc_num_files_hint,
+      'apc.enable_cli'     => $apc_enable_cli
     }
   }
 }
