@@ -1,7 +1,9 @@
 ---
+url: 'example.org'
+
 roles::web::php_runtime: 'modphp'
 roles::web::webserver: 'apache2'
-url: 'example.org'
+roles::web::serveradmin: 'noc-nr@bulletproof.net'
 
 php::module::apc::enabled: '1'
 php::module::apc::num_files_hint: '15000'

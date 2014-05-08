@@ -3,6 +3,7 @@
 #
 class roles::web (
   $webserver          = 'apache2',
+  $serveradmin        = 'root@localhost',
   $php_runtime        = 'modphp',
   $url                = 'example.org',
   $apc_enabled        = '1',
@@ -17,8 +18,9 @@ class roles::web (
   #TODO: test if someone selects nginx + modphp and fail
 
   class { '::apache':
+    default_vhost       => true,
     default_mods        => true,
-    default_confd_files => false,
+    default_confd_files => true,
     mpm_module          => 'prefork'
   }
 
@@ -27,6 +29,7 @@ class roles::web (
     docroot       => "/var/www/${url}",
     docroot_owner => 'root',
     docroot_group => 'vagrant',
+    serveradmin   => $serveradmin,
   }
 
   file{"/var/www/${url}/index.php":

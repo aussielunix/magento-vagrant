@@ -3,6 +3,7 @@ node default  {
   class {'roles::web':
     php_runtime        => hiera('roles::web::php_runtime'),
     webserver          => hiera('roles::web::webserver'),
+    serveradmin        => hiera('roles::web::serveradmin'),
     url                => hiera('url'),
     apc_enabled        => hiera('php::module::apc::enabled'),
     apc_max_file_size  => hiera('php::module::apc::max_file_size'),
