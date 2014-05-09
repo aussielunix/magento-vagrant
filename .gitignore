@@ -1,2 +1,3 @@
 .vagrant/
 rspec_reports/
+.*.sw*
