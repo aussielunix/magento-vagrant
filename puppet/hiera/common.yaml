@@ -1,5 +1,6 @@
 ---
 url: 'example.org'
+
 roles::web::serveradmin: 'noc-nr@bulletproof.net'
 roles::web::startservers: '8'
 roles::web::minspareservers: '5'
@@ -14,5 +15,14 @@ php::module::apc::max_file_size: '4'
 php::module::apc::shm_size: '256'
 php::module::apc::enable_cli: '1'
 
-:resources:
-:classes:
+mysql::server::root_password: '2emf,Mp!'
+
+mysql::server::dbs:
+  'mage_test':
+    user: 'mage_test'
+    password: 'Owlet4couch?stael'
+    host: '192.168.33.10'
+  'mage_prod':
+    user: 'mage_prod'
+    password: 'popes%russo3Kitty'
+    host: '192.168.33.10'
