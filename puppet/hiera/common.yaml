@@ -1,16 +1,17 @@
 ---
-url: 'example.org'
-
-roles::web::php_runtime: 'modphp'
-roles::web::webserver: 'apache2'
 roles::web::serveradmin: 'noc-nr@bulletproof.net'
+roles::web::startservers: '8'
+roles::web::minspareservers: '5'
+roles::web::maxspareservers: '20'
+roles::web::serverlimit: '256'
+roles::web::maxclients: '256'
+roles::web::maxrequestsperchild: '4000'
 
 php::module::apc::enabled: '1'
 php::module::apc::num_files_hint: '15000'
 php::module::apc::max_file_size: '4'
 php::module::apc::shm_size: '256'
 php::module::apc::enable_cli: '1'
-
 
 :resources:
 :classes:

@@ -1,27 +1,37 @@
-# web role
+# web::role::apache::mod_php
+#
 # WIP
 #
-class roles::web (
-  $webserver          = 'apache2',
-  $serveradmin        = 'root@localhost',
-  $php_runtime        = 'modphp',
-  $url                = 'example.org',
-  $apc_enabled        = '1',
-  $apc_max_file_size  = '4',
-  $apc_shm_size       = '256',
-  $apc_num_files_hint = '15000',
-  $apc_enable_cli     = '1'
+class web::role::apache::mod_php(
+  $serveradmin         = 'root@localhost',
+  $url                 = 'example.org',
+  $apc_enabled         = '1',
+  $apc_max_file_size   = '4',
+  $apc_shm_size        = '256',
+  $apc_num_files_hint  = '15000',
+  $apc_enable_cli      = '1',
+  $startservers        = '8',
+  $minspareservers     = '5',
+  $maxspareservers     = '20',
+  $serverlimit         = '256',
+  $maxclients          = '256',
+  $maxrequestsperchild = '4000'
 )
 {
-  validate_re($php_runtime, ['modphp', 'fpm'], 'Roles::Web - $php_runtime only supports: modphp or fpm.')
-  validate_re($webserver, ['apache2', 'nginx'], 'Roles::Web - $webserver only supports: apache2 or nginx.')
-  #TODO: test if someone selects nginx + modphp and fail
-
   class { '::apache':
     default_vhost       => true,
     default_mods        => true,
     default_confd_files => true,
-    mpm_module          => 'prefork'
+    mpm_module          => false
+  }
+
+  class {'::apache::mod::prefork':
+    startservers        => $startservers,
+    minspareservers     => $minspareservers,
+    maxspareservers     => $maxspareservers,
+    serverlimit         => $serverlimit,
+    maxclients          => $maxclients,
+    maxrequestsperchild => $maxrequestsperchild
   }
 
   ::apache::vhost { $url:
