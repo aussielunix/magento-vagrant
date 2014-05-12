@@ -1,4 +1,5 @@
 ---
+url: 'example.org'
 roles::web::serveradmin: 'noc-nr@bulletproof.net'
 roles::web::startservers: '8'
 roles::web::minspareservers: '5'
