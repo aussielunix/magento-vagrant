@@ -69,11 +69,6 @@ class roles::web::apache::mod_php(
 
   class { 'apt': }
 
-  #  apt::key { 'ufirst':
-  #    key        => '4BD6EC30',
-  #    key_server => 'pgp.mit.edu',
-  #  }
-
   apt::ppa { 'ppa:ufirst/php': }
   php::module { 'gd': }
   php::module { 'mcrypt': }
