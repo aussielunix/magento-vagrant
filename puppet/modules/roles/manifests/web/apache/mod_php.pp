@@ -2,7 +2,7 @@
 #
 # WIP
 #
-class web::role::apache::mod_php(
+class roles::web::apache::mod_php(
   $serveradmin         = 'root@localhost',
   $url                 = 'example.org',
   $apc_enabled         = '1',
