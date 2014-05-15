@@ -42,20 +42,25 @@ class roles::web::apache::mod_php(
     serveradmin   => $serveradmin,
   }
 
+  class {'::apache::mod::php': }
+
   file{"/var/www/${url}/index.php":
     content => "Hello World - ${url}",
     require => Apache::Vhost[$url]
   }
 
-  class {'::apache::mod::php': } ->
+  class { 'apt': }
+
+  apt::ppa { 'ppa:ufirst/php': }
 
   php::ini { '/etc/php5/apache2/php.ini':
     mail_add_x_header => 'Off',
-    require => Package['apache2']
-  } ->
+    require           => Class['::apache::mod::php']
+  }
 
   class { 'php::mod_php5':
-    inifile => '/etc/php5/apache2/php.ini'
+    inifile => '/etc/php5/apache2/php.ini',
+    require => Class['::apache::mod::php']
   }
 
   class { 'php::cli':
@@ -67,21 +72,23 @@ class roles::web::apache::mod_php(
     memory_limit   => '64M',
   }
 
-  class { 'apt': }
+  $php_modules = [
+    'mcrypt',
+    'gd',
+    'curl',
+    'mysqlnd',
+    'apc',
+    'redis',
+    'snappy'
+  ]
 
-  apt::ppa { 'ppa:ufirst/php': }
-  php::module { 'gd': }
-  php::module { 'mcrypt': }
-  php::module { 'curl': }
-  php::module { 'mysqlnd': }
-  php::module { 'redis':
-    require => Apt::Ppa['ppa:ufirst/php']
-  }
-  php::module { 'snappy':
-    require => Apt::Ppa['ppa:ufirst/php']
+  php::module{$php_modules:
+    require => [
+      Apt::Ppa['ppa:ufirst/php'],
+      Class['php::mod_php5']
+    ]
   }
 
-  php::module { 'apc': }
   php::module::ini { 'apc':
     settings               => {
       'apc.enabled'        => $apc_enabled,
