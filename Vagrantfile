@@ -70,7 +70,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     puppet.manifests_path = "puppet/manifests"
     puppet.module_path    = "puppet/modules"
     puppet.manifest_file  = "init.pp"
-    puppet.options        = "--hiera_config=/vagrant/puppet/hiera.yaml --verbose"
+    puppet.options        = "--hiera_config=/vagrant/puppet/hiera.yaml"
   end
 
   config.vm.provider 'virtualbox' do |v|
