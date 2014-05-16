@@ -55,37 +55,37 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     fqdn       = attrs['fqdn']
     hostname   = fqdn.split('.').first
 
-    config.vm.define(hostname) do |config|
-      config.vm.network 'private_network', ip: ip_address
-      config.vm.hostname = fqdn
+    config.vm.define(hostname) do |box|
+      box.vm.network 'private_network', ip: ip_address
+      box.vm.hostname = fqdn
+      box.vm.provision :shell, :inline => sh_update_puppet
+      box.vm.provision :puppet do |puppet|
+        puppet.manifests_path = "puppet/manifests"
+        puppet.module_path    = "puppet/modules"
+        puppet.manifest_file  = "init.pp"
+        puppet.options        = "--hiera_config=/vagrant/puppet/hiera.yaml"
+      end
+
+      box.vm.provision :serverspec do |spec|
+        spec.pattern = "spec/integration/#{hostname}/*_spec.rb"
+      end
+
+      box.vm.provider 'virtualbox' do |v|
+        v.customize ['modifyvm', :id, '--memory', 2048]
+        v.customize ['setextradata', :id, 'VBoxInternal/Devices/mc146818/0/Config/UseUTC', 1]
+      end
+
+      box.vm.provider 'vmware_fusion' do |v|
+        v.vmx['memsize']  = '1024'
+        v.vmx['numvcpus'] = '1'
+      end
     end
-  end
 
-  config.rspec.suppress_ci_stdout = false
-  config.rspec.dirs = ['spec/unit', 'spec/integration']
-  config.rspec.tests = ['*_spec.rb']
 
-  config.vm.provision :shell, :inline => sh_update_puppet
-  config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "puppet/manifests"
-    puppet.module_path    = "puppet/modules"
-    puppet.manifest_file  = "init.pp"
-    puppet.options        = "--hiera_config=/vagrant/puppet/hiera.yaml"
-  end
-
-  config.vm.provider 'virtualbox' do |v|
-    v.customize ['modifyvm', :id, '--memory', 2048]
-    v.customize ['setextradata', :id, 'VBoxInternal/Devices/mc146818/0/Config/UseUTC', 1]
-  end
-
-  config.vm.provider 'vmware_fusion' do |v|
-    v.vmx['memsize']  = '1024'
-    v.vmx['numvcpus'] = '1'
-  end
-
-  if Vagrant.has_plugin?("vagrant-cachier")
-    # Configure cached packages to be shared between instances of the same base box.
-    # More info on http://fgrehm.viewdocs.io/vagrant-cachier/usage
-    config.cache.scope = :box
+    if Vagrant.has_plugin?("vagrant-cachier")
+      # Configure cached packages to be shared between instances of the same base box.
+      # More info on http://fgrehm.viewdocs.io/vagrant-cachier/usage
+      config.cache.scope = :box
+    end
   end
 end
