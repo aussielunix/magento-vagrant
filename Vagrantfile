@@ -66,9 +66,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         puppet.options        = "--hiera_config=/vagrant/puppet/hiera.yaml"
       end
 
-      box.vm.provision :serverspec do |spec|
-        spec.pattern = "spec/integration/#{hostname}/*_spec.rb"
-      end
+      config.rspec.suppress_ci_stdout = false
+      config.rspec.dirs = ['spec/unit', 'spec/integration']
+      config.rspec.tests = ["#{hostname}/*_spec.rb"]
 
       box.vm.provider 'virtualbox' do |v|
         v.customize ['modifyvm', :id, '--memory', 2048]
