@@ -15,4 +15,6 @@ node /app/ {
     maxclients          => hiera('roles::web::maxclients'),
     maxrequestsperchild => hiera('roles::web::maxrequestsperchild'),
   }
+
+  class {'varnish': }
 }

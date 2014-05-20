@@ -1,0 +1,10 @@
+name          'bulletproofnet-varnish'
+version       '0.0.1'
+source        'git://github.com/bulletproofnet/puppet-varnish.git'
+author        'Mick Pollard'
+license       'Apache License, Version 2.0'
+summary       'Varnish for magento with turpentine'
+description   'Varnish module for use with Magento and turpentine'
+project_page  'http://github.com/bulletproofnet/puppet-varnish'
+
+dependency 'puppetlabs/stdlib'

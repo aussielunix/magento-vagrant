@@ -1,0 +1,24 @@
+probe magento {
+	.request = "GET /index.php HTTP/1.1"
+		"Host: example.org"
+		"Connection: close";
+	.timeout = 2s;
+	.interval = 5s;
+	.window = 8;
+	.threshold = 3;
+}
+
+backend magento01 {
+	.host = "127.0.0.1";
+	.port = "80";
+	.first_byte_timeout = 300s;
+	.between_bytes_timeout = 300s;
+	.probe = magento;
+}
+director magento round-robin {
+	{ .backend = magento01; }
+}
+
+sub vcl_recv {
+	set req.backend = magento;
+}
